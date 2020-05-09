@@ -5,6 +5,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Book } from '../class/Book';
+import { NavbarComponent } from 'src/app/shopping-module/navbar/navbar.component';
 
 @Injectable({
   providedIn: 'root'
@@ -54,20 +55,35 @@ export class HttpServiceService {
   addToCart(Inid: number): Observable<any> {
     let cartItem: Cart;
     this.getCartItem(Inid).subscribe(data => { cartItem = data; }, () => { console.log('Item Not Found LOL'); });
-    if (cartItem) {
+    try {
       console.log(`InsideUpdate`);
       cartItem.quantity++;
       return this._http.put(`${this.baseURL}/cart/${Inid}`, cartItem, this.httpHeader);
     }
-    else {
+    catch {
       console.log(`InsideAdd`);
       cartItem = {
         id: Inid,
         ProductId: Math.floor(Math.random() * 100000),
         quantity: 1
       };
+      // this.nav.getCartCount();
       return this._http.post(`${this.baseURL}/cart`, cartItem, this.httpHeader);
     }
+    // if (cartItem) {
+    //   console.log(`InsideUpdate`);
+    //   cartItem.quantity++;
+    //   return this._http.put(`${this.baseURL}/cart/${Inid}`, cartItem, this.httpHeader);
+    // }
+    // else {
+    //   console.log(`InsideAdd`);
+    //   cartItem = {
+    //     id: Inid,
+    //     ProductId: Math.floor(Math.random() * 100000),
+    //     quantity: 1
+    //   };
+    //   return this._http.post(`${this.baseURL}/cart`, cartItem, this.httpHeader);
+    // }
   }
   // getMovieDetails(id): Observable<Movie> {
   //   return this._http.get<Movie>(`${this.baseURL}/products/${id}`);

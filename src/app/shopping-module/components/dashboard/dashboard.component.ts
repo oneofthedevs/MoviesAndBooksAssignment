@@ -12,6 +12,7 @@ import { SubSink } from 'subsink';
 })
 export class DashboardComponent implements OnInit, OnDestroy {
 
+  // tslint:disable-next-line: variable-name
   constructor(public service: HttpServiceService, private _router: Router) { }
 
   Products: any[];
