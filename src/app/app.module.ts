@@ -1,3 +1,4 @@
+import { DataTransferService } from './shared/services/data-transfer.service';
 import { HttpServiceService } from './shared/services/http-service.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -19,7 +20,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     FormsModule,
     HttpClientModule
   ],
-  providers: [HttpServiceService],
+  providers: [HttpServiceService, DataTransferService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

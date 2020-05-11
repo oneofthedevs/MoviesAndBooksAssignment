@@ -1,25 +1,30 @@
 <section class="container">
     <div class="row">
-        <div class="col-lg-3 col-md-4 col-12" *ngFor="let item of Products">
+        <div class="col-lg-3 col-md-6 col-12" *ngFor="let item of Products">
             <div class="cards">
                 <div class="cards-data" (click)="goToDetails(item.id)">
                     <div class="imagediv">
-                        <span class="fav"><i class="fa fa-heart"></i></span>
+                        <!-- <span class="fav"><i class="fa fa-heart"></i></span> -->
                         <img [src]="item.Image" [alt]="item.Name">
                     </div>
-                    <h3>{{item.Name}}</h3>
-                    <span class="rating" *ngIf="item.Category == 'Movie'; else Book">IMDB:
-                        {{item.ImdbRating | number: '1.1-2'}} <i class="fa fa-star" aria-hidden="true"></i></span>
-                    <ng-template #Book><span class="rating">GoodReads:
-                            {{item.GoodReadsRatings | number: '1.1-2'}} <i class="fa fa-star"
-                                aria-hidden="true"></i></span>
-                    </ng-template>
-
-                    <p>{{item.Amount | currency:'INR' }}</p>
+                    <h3 class="text-center">{{item.Name}}</h3>
+                    <div class="mt-2 d-flex justify-content-around">
+                        <span>{{item.Amount | currency:'INR' }}</span>
+                        <span class="rating" *ngIf="item.Category == 'Movie'; else Book">IMDB:
+                            {{item.ImdbRating | number: '1.1-2'}} <i class="fa fa-star" aria-hidden="true"></i></span>
+                        <ng-template #Book><span class="rating">GoodReads:
+                                {{item.GoodReadsRatings | number: '1.1-2'}} <i class="fa fa-star"
+                                    aria-hidden="true"></i></span>
+                        </ng-template>
+                    </div>
                 </div>
-                <div class="cards-btn">
-                    <button class="btn btn-success btn-block" (click)="addToCart(item.id)">Add to cart <i
-                            class="fa fa-shopping-cart"></i></button>
+                <div class="cards-btn row mt-3">
+                    <div class="col-9">
+                        <button class="btn btn-success btn-block" (click)="addToCart(item.id)">Add to cart <i
+                                class="fa fa-shopping-cart"></i></button>
+                    </div>
+                    <div class="col-2">
+                        <button class="btn btn-outline-danger"><i class="fa fa-heart"></i></button></div>
                 </div>
             </div>
         </div>

@@ -1,1 +1,25 @@
-<p>payment-gateway works!</p>
+<section>
+    <div class="container main">
+        <div class="cardBack">
+            <div class="container items d-flex justify-content-center align-items-center flex-column">
+                <h2 class="text-center">Please enter your OTP to finish the payment</h2>
+                <p class="text-center">An OTP has been sent to your mobile number
+                </p>
+                <form [formGroup]="OTP">
+                    <div class="form-group">
+                        <input type="text" class="form-control" formControlName="pin">
+                    </div>
+                </form>
+                <div class="row">
+                    <button class="btn btn-success" [disabled]="OTP.invalid" (click)="confirm()">Validate</button>
+                </div>
+                <div class="row mt-4">
+                    <p class="resend">Resend One-Time Password</p>
+                </div>
+                <div class="row mt-1">
+                    <button class="btn btn-sm btn-outline-danger" (click)="cancel()">Cancel Order</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

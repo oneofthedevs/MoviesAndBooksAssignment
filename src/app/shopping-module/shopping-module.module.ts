@@ -1,3 +1,4 @@
+import { DataTransferService } from './../shared/services/data-transfer.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpServiceService } from './../shared/services/http-service.service';
 import { NgModule } from '@angular/core';
@@ -20,7 +21,8 @@ import { CartComponent } from './components/cart/cart.component';
     ReactiveFormsModule
   ],
   providers: [
-    HttpServiceService
+    HttpServiceService,
+    DataTransferService
   ]
 })
 export class ShoppingModuleModule { }

@@ -18,9 +18,10 @@ section{
             z-index: 6;
             .imagediv{
                 z-index: 8;
-                height: 270px;
+                // height: 235px;
                 max-width: 100% !important;
                 text-align: center;
+                margin-bottom: 20px;
                 .fav{
                     position: relative;
                     top: 10%;
@@ -38,7 +39,7 @@ section{
                     // border-radius: 5px;
                     max-height: 240px;
                     width: 100%;
-                    object-fit: cover;
+                    object-fit: contain;
                     object-position: center;
                 }
             }

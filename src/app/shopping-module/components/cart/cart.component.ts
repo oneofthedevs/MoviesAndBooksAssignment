@@ -1,3 +1,4 @@
+import { DataTransferService } from './../../../shared/services/data-transfer.service';
 import { Router } from '@angular/router';
 import { OrderDetails } from './../../../shared/class/OrderDetails';
 import { Cart } from './../../../shared/class/Cart';
@@ -17,23 +18,15 @@ export class CartComponent implements OnInit, OnDestroy {
 
   paymentForm: FormGroup;
 
-  constructor(public service: HttpServiceService, public router: Router, private fb: FormBuilder) {
+  constructor(public service: HttpServiceService, public router: Router, private fb: FormBuilder, public data: DataTransferService) {
   }
   list: Cart[];
   dataList: any[];
   total;
   ngOnInit(): void {
-    this.paymentForm = this.fb.group({
-      name: ['', [
-        Validators.required
-      ]],
-      address: ['',
-        Validators.required],
-      upiId: ['',
-        Validators.required]
-    });
+    this.paymentForm = this.fb.group(this.service.OrderInfo);
     // tslint:disable-next-line: deprecation
-    this.paymentForm.valueChanges.subscribe(console.log);
+    // this.paymentForm.valueChanges.subscribe(console.log);
     this.getCartItems();
   }
 
@@ -82,20 +75,22 @@ export class CartComponent implements OnInit, OnDestroy {
   placeOrder(newOrder: OrderDetails) {
     newOrder.amount = this.total;
     console.log(newOrder);
+    this.data.set(newOrder);
+    this.router.navigate(['./order/summary']);
+  }
+
+  reactive() {
+    this.service.OrderInfo = this.paymentForm.value;
+    this.service.OrderInfo.amount = this.total;
+    console.log(this.service.OrderInfo);
+    this.data.set(this.service.OrderInfo);
     this.router.navigate(['./order/summary']);
   }
 
   reset() {
     console.log('reset called');
-    this.service.OrderInfo = {
-      id: null,
-      name: '',
-      address: '',
-      upiId: '',
-      amount: 0,
-    };
+    this.paymentForm.reset();
   }
-
   ngOnDestroy(): void {
     this.unsub.unsubscribe();
   }

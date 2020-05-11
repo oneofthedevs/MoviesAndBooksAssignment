@@ -24,6 +24,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   public unsub = new SubSink();
   ngOnInit(): void {
     this.getProducts();
+    console.log(this.service.OrderInfo);
     // this.getCartItems();
     // this.getMovies();
   }
@@ -38,7 +39,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   goToDetails(id: number) {
     console.log('Clicked' + id);
-    this._router.navigate([`./details/${id}`]);
+    this._router.navigate([`./catalog/details/${id}`]);
   }
 
   getCartItems() {

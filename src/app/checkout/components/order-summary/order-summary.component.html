@@ -1,1 +1,38 @@
-<p>order-summary works!</p>
+<div class="container main">
+    <div class="userDetails">
+        <h1>Order Summary</h1>
+        <div class="row">
+            <p class="col-12"><b>Name:</b> {{sum.name}}</p>
+            <p class="col-12"><b>Address:</b> {{sum.address}}</p>
+            <p class="col-12"><b>Payment Mode:</b> UPI</p>
+            <h3 class="col-12 orderTitle">Cart Items</h3>
+            <div class="col-12 tab">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Sr. No</th>
+                            <th scope="col">Name</th>
+                            <th scope="col" class="text-right">Quantity</th>
+                            <th scope="col" class="text-right">Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of itemData; let i = index">
+                            <th scope="row">{{i + 1}}</th>
+                            <td>{{item.Name}}</td>
+                            <td class="text-right">{{cartItems[0].quantity}}</td>
+                            <td class="text-right">{{item.Amount | currency: 'INR'}}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3"></td>
+                            <td class="text-right"><b>Total: {{sum.amount | currency: 'INR'}}</b></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-12 d-flex justify-content-end">
+                <button class="btn btn-success" (click)="place()">Place Order</button>
+            </div>
+        </div>
+    </div>
+</div>

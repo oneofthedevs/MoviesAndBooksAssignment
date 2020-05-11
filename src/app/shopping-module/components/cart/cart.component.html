@@ -33,59 +33,36 @@
             </table>
         </div>
         <div class="col-lg-4">
-            <h4>Enter your Details</h4>
-            <div class="form-group mt-3">
-                <label for="">Name</label>
-                <input class="form-control" type="text" name="username" [(ngModel)]="service.OrderInfo.name" required>
-            </div>
-            <div class="form-group">
-                <label for="address">Address</label>
-                <textarea name="address" id="" cols="30" rows="6" class="form-control"
-                    [(ngModel)]="service.OrderInfo.address" required></textarea>
-            </div>
-            <div class="form-group">
-                <label for="upiID">UPI ID</label>
-                <input class="form-control" type="text" name="upiID" [(ngModel)]="service.OrderInfo.upiId"
-                    placeholder="Eg. darthvader@empire" required>
-            </div>
-            <div class="form-group">
-                <p>Total Amount to be Paid: <b>{{total | currency: 'INR'}}</b></p>
-            </div>
-            <div class="form-group">
-                <button class="btn btn-success col-7" (click)="placeOrder(service.OrderInfo)">Go to checkout</button>
-                <button class="btn btn-outline-danger col-4 offset-1" (click)="reset()">Cancel</button>
-            </div>
+            <form class="col-12" [formGroup]="paymentForm">
+                Value: {{paymentForm.value | json}}
+                <div class="col-12">
+                    <h4>Enter your Details</h4>
+                    <div class="form-group mt-3">
+                        <label for="">Name</label>
+                        <input class="form-control" type="text" name="username" required="required"
+                            formControlName="name">
+                    </div>
+                    <div class="form-group">
+                        <label for="address">Address</label>
+                        <textarea name="address" id="" cols="30" rows="6" class="form-control" formControlName="address"
+                            required="required"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="upiID">UPI ID</label>
+                        <input class="form-control" type="text" name="upiID" required="required"
+                            formControlName="upiId">
+                    </div>
+                    <div class="form-group">
+                        <p>Total Amount to be Paid: <b>{{total | currency: 'INR'}}</b></p>
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-success col-7" type="submit" [disabled]="paymentForm.invalid"
+                            (click)="reactive()">Go to
+                            checkout</button>
+                        <button class="btn btn-outline-danger col-4 offset-1" (click)="reset()">Cancel</button>
+                    </div>
+                </div>
+            </form>
         </div>
-    </div>
-    <div class="row mt-5">
-        <form class="col-12" [formGroup]="paymentForm">
-            Value: {{paymentForm.value | json}}
-            <div class="col-12">
-                <h4>Enter your Details</h4>
-                <div class="form-group mt-3">
-                    <label for="">Name</label>
-                    <input class="form-control" type="text" name="username" required="required" formControlName="name">
-                </div>
-                <div class="form-group">
-                    <label for="address">Address</label>
-                    <textarea name="address" id="" cols="30" rows="6" class="form-control" formControlName="address"
-                        required="required"></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="upiID">UPI ID</label>
-                    <input class="form-control" type="text" name="upiID" required="required" formControlName="upiId">
-                </div>
-                <div class="form-group">
-                    <p>Total Amount to be Paid: <b>{{total | currency: 'INR'}}</b></p>
-                </div>
-                <div class="form-group">
-                    <button class="btn btn-success col-7" [disabled]="paymentForm.invalid"
-                        (click)="placeOrder(service.OrderInfo)">Go to
-                        checkout</button>
-                    <button class="btn btn-outline-danger col-4 offset-1" (click)="reset()">Cancel</button>
-                </div>
-            </div>
-        </form>
-
     </div>
 </div>
