@@ -1,3 +1,4 @@
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpServiceService } from './../shared/services/http-service.service';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -14,7 +15,9 @@ import { CartComponent } from './components/cart/cart.component';
   declarations: [NavbarComponent, ComponentsComponent, DetailsComponent, DashboardComponent, CartComponent],
   imports: [
     CommonModule,
-    ShoppingModuleRoutingModule
+    ShoppingModuleRoutingModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [
     HttpServiceService

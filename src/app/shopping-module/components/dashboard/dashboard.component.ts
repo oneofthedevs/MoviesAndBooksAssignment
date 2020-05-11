@@ -4,6 +4,7 @@ import { HttpServiceService } from './../../../shared/services/http-service.serv
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { SubSink } from 'subsink';
+import { Cart } from 'src/app/shared/class/Cart';
 
 @Component({
   selector: 'app-dashboard',
@@ -18,10 +19,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
   Products: any[];
   Movies: Movie[];
   Books: Book[];
+  cartItems: Cart[];
 
   public unsub = new SubSink();
   ngOnInit(): void {
     this.getProducts();
+    // this.getCartItems();
     // this.getMovies();
   }
 
@@ -38,9 +41,23 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this._router.navigate([`./details/${id}`]);
   }
 
-  addToCart(id: number) {
-    console.log(id);
-    this.service.addToCart(id).subscribe();
+  getCartItems() {
+    console.log('cart Items called');
+    this.service.getCartItems()
+      .subscribe(data => {
+        this.cartItems = data;
+        console.log(this.cartItems);
+      });
+    console.log(this.cartItems);
+  }
+
+  addToCart(Inid: number) {
+    console.log(Inid);
+    // this.cartItems = this.cartItems.filter(ele => {
+    //   ele.id === Inid;
+    // });
+    // console.log(this.cartItems);
+    this.service.addToCart(Inid).subscribe();
   }
 
   ngOnDestroy(): void {

@@ -1,3 +1,4 @@
+import { OrderDetails } from './../class/OrderDetails';
 import { Cart } from './../class/Cart';
 import { Movie } from './../class/Movie';
 import { Injectable } from '@angular/core';
@@ -5,7 +6,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Book } from '../class/Book';
-import { NavbarComponent } from 'src/app/shopping-module/navbar/navbar.component';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +16,14 @@ export class HttpServiceService {
     headers: new HttpHeaders({
       'Content-Type': 'application/json'
     })
+  };
+
+  public OrderInfo: OrderDetails = {
+    id: null,
+    name: '',
+    address: '',
+    upiId: '',
+    amount: 0,
   };
 
   // tslint:disable-next-line: variable-name
@@ -47,45 +55,24 @@ export class HttpServiceService {
     return this._http.get<any>(`${this.baseURL}/cart`);
   }
 
-  getCartItem(id: number): Observable<any> {
+  getCartItem(id: number): Observable<Cart> {
     console.log(`Finding Cart Item`);
-    return this._http.get(`${this.baseURL}/cart/${id}`);
+    return this._http.get<Cart>(`${this.baseURL}/cart/${id}`);
   }
 
-  addToCart(Inid: number): Observable<any> {
+  addToCart(Inid: number): Observable<Cart> {
     let cartItem: Cart;
-    this.getCartItem(Inid).subscribe(data => { cartItem = data; }, () => { console.log('Item Not Found LOL'); });
-    try {
-      console.log(`InsideUpdate`);
-      cartItem.quantity++;
-      return this._http.put(`${this.baseURL}/cart/${Inid}`, cartItem, this.httpHeader);
-    }
-    catch {
-      console.log(`InsideAdd`);
-      cartItem = {
-        id: Inid,
-        ProductId: Math.floor(Math.random() * 100000),
-        quantity: 1
-      };
-      // this.nav.getCartCount();
-      return this._http.post(`${this.baseURL}/cart`, cartItem, this.httpHeader);
-    }
-    // if (cartItem) {
-    //   console.log(`InsideUpdate`);
-    //   cartItem.quantity++;
-    //   return this._http.put(`${this.baseURL}/cart/${Inid}`, cartItem, this.httpHeader);
-    // }
-    // else {
-    //   console.log(`InsideAdd`);
-    //   cartItem = {
-    //     id: Inid,
-    //     ProductId: Math.floor(Math.random() * 100000),
-    //     quantity: 1
-    //   };
-    //   return this._http.post(`${this.baseURL}/cart`, cartItem, this.httpHeader);
-    // }
+    console.log(`InsideAdd`);
+    cartItem = {
+      id: Math.floor(Math.random() * 100000),
+      ProductId: Inid,
+      quantity: 1
+    };
+    return this._http.post<Cart>(`${this.baseURL}/cart`, cartItem, this.httpHeader);
   }
-  // getMovieDetails(id): Observable<Movie> {
-  //   return this._http.get<Movie>(`${this.baseURL}/products/${id}`);
-  // }
+
+  deleteCartItem(id): Observable<Cart> {
+    return this._http.delete<Cart>(`${this.baseURL}/cart/${id}`, this.httpHeader);
+  }
+
 }

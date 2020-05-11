@@ -12,8 +12,13 @@ const routes: Routes = [
     component: ComponentsComponent,
     children: [
       {
-        path: 'Products',
+        path: '',
         component: DashboardComponent,
+      },
+      {
+        path: '',
+        redirectTo: '',
+        pathMatch: 'full'
       },
       {
         path: 'details/:id',
@@ -25,7 +30,7 @@ const routes: Routes = [
       },
       {
         path: '**',
-        redirectTo: '/Products',
+        redirectTo: '',
         pathMatch: 'full'
       }
     ]

@@ -1,28 +1,91 @@
 <div class="container">
-    <table class="table mt-4">
-        <thead class="thead-dark">
-            <tr>
-                <th scope="col">Product Name</th>
-                <th scope="col">Category</th>
-                <th scope="col">Price</th>
-                <th scope="col"></th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let item of dataList">
-                <td>{{item.Name}}</td>
-                <td>{{item.Category}}</td>
-                <td>{{item.Amount}}</td>
-                <td>
-                    <button class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>
-                </td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td><b>Total:</b> {{total}}</td>
-                <td></td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="row mt-4">
+        <div class="col-lg-8">
+            <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Product Name</th>
+                        <th scope="col">Category</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Price</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of dataList; let i = index">
+                        <td>{{item.Name}}</td>
+                        <td>{{item.Category}}</td>
+                        <td class="text-center">{{list[i].quantity}}</td>
+                        <td class="text-center">{{item.Amount | currency: 'INR'}}</td>
+                        <td>
+                            <button class="btn btn-danger btn-sm" (click)="deleteItem(list[i].id)"><i
+                                    class="fa fa-trash"></i></button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="text-center"><b>{{total | currency: 'INR'}}</b></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-lg-4">
+            <h4>Enter your Details</h4>
+            <div class="form-group mt-3">
+                <label for="">Name</label>
+                <input class="form-control" type="text" name="username" [(ngModel)]="service.OrderInfo.name" required>
+            </div>
+            <div class="form-group">
+                <label for="address">Address</label>
+                <textarea name="address" id="" cols="30" rows="6" class="form-control"
+                    [(ngModel)]="service.OrderInfo.address" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="upiID">UPI ID</label>
+                <input class="form-control" type="text" name="upiID" [(ngModel)]="service.OrderInfo.upiId"
+                    placeholder="Eg. darthvader@empire" required>
+            </div>
+            <div class="form-group">
+                <p>Total Amount to be Paid: <b>{{total | currency: 'INR'}}</b></p>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-success col-7" (click)="placeOrder(service.OrderInfo)">Go to checkout</button>
+                <button class="btn btn-outline-danger col-4 offset-1" (click)="reset()">Cancel</button>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-5">
+        <form class="col-12" [formGroup]="paymentForm">
+            Value: {{paymentForm.value | json}}
+            <div class="col-12">
+                <h4>Enter your Details</h4>
+                <div class="form-group mt-3">
+                    <label for="">Name</label>
+                    <input class="form-control" type="text" name="username" required="required" formControlName="name">
+                </div>
+                <div class="form-group">
+                    <label for="address">Address</label>
+                    <textarea name="address" id="" cols="30" rows="6" class="form-control" formControlName="address"
+                        required="required"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="upiID">UPI ID</label>
+                    <input class="form-control" type="text" name="upiID" required="required" formControlName="upiId">
+                </div>
+                <div class="form-group">
+                    <p>Total Amount to be Paid: <b>{{total | currency: 'INR'}}</b></p>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-success col-7" [disabled]="paymentForm.invalid"
+                        (click)="placeOrder(service.OrderInfo)">Go to
+                        checkout</button>
+                    <button class="btn btn-outline-danger col-4 offset-1" (click)="reset()">Cancel</button>
+                </div>
+            </div>
+        </form>
+
+    </div>
 </div>
