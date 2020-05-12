@@ -1,3 +1,4 @@
+import { CheckoutAuthGuard } from './../shared/auth/checkout-auth.guard';
 import { DataTransferService } from './../shared/services/data-transfer.service';
 import { HttpServiceService } from './../shared/services/http-service.service';
 import { NgModule } from '@angular/core';
@@ -20,7 +21,8 @@ import { ReactiveFormsModule } from '@angular/forms';
   ],
   providers: [
     HttpServiceService,
-    DataTransferService
+    DataTransferService,
+    CheckoutAuthGuard
   ]
 })
 export class CheckoutModule { }

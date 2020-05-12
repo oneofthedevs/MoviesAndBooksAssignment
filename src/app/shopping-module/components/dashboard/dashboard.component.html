@@ -8,6 +8,13 @@
                         <img [src]="item.Image" [alt]="item.Name">
                     </div>
                     <h3 class="text-center">{{item.Name}}</h3>
+                    <ng-container *ngIf="item.Category == 'Movie'; else author">
+                        <h4 class="text-center">by: {{item.Director}}</h4>
+                    </ng-container>
+                    <ng-template #author>
+                        <h4 class="text-center">by: {{item.Writer}}</h4>
+                    </ng-template>
+                    <h4 class="text-center genre">{{item.Genre}}</h4>
                     <div class="mt-2 d-flex justify-content-around">
                         <span>{{item.Amount | currency:'INR' }}</span>
                         <span class="rating" *ngIf="item.Category == 'Movie'; else Book">IMDB:
@@ -19,12 +26,11 @@
                     </div>
                 </div>
                 <div class="cards-btn row mt-3">
-                    <div class="col-9">
-                        <button class="btn btn-success btn-block" (click)="addToCart(item.id)">Add to cart <i
+                    <div class="col-12 d-flex justify-content-between">
+                        <button class="btn btn-success col-8 btn-block" (click)="addToCart(item.id)">Add to cart <i
                                 class="fa fa-shopping-cart"></i></button>
+                        <button class="btn btn-outline-danger"><i class="fa fa-heart"></i></button>
                     </div>
-                    <div class="col-2">
-                        <button class="btn btn-outline-danger"><i class="fa fa-heart"></i></button></div>
                 </div>
             </div>
         </div>
