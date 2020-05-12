@@ -1,0 +1,47 @@
+<section class="container">
+    <ng-container *ngIf="wishList.length == 0; else avaliable">
+        No items avaliable
+    </ng-container>
+    <ng-template #avaliable>
+        <div class="row">
+            <div class="col-lg-3 col-md-6 col-12" *ngFor="let item of data; let i = index">
+                <div class="cards">
+                    <div class="cards-data" (click)="goToDetails(item.id)">
+                        <div class="imagediv">
+                            <!-- <span class="fav"><i class="fa fa-heart"></i></span> -->
+                            <img [src]="item.Image" [alt]="item.Name">
+                        </div>
+                        <h3 class="text-center">{{item.Name}}</h3>
+                        <ng-container *ngIf="item.Category == 'Movie'; else author">
+                            <h4 class="text-center">by: {{item.Director}}</h4>
+                        </ng-container>
+                        <ng-template #author>
+                            <h4 class="text-center">by: {{item.Writer}}</h4>
+                        </ng-template>
+                        <h4 class="text-center genre">{{item.Genre}}</h4>
+                        <div class="mt-2 d-flex justify-content-around">
+                            <span>{{item.Amount | currency:'INR' }}</span>
+                            <span class="rating" *ngIf="item.Category == 'Movie'; else Book">IMDB:
+                                {{item.ImdbRating | number: '1.1-2'}} <i class="fa fa-star"
+                                    aria-hidden="true"></i></span>
+                            <ng-template #Book><span class="rating">GoodReads:
+                                    {{item.GoodReadsRatings | number: '1.1-2'}} <i class="fa fa-star"
+                                        aria-hidden="true"></i></span>
+                            </ng-template>
+                        </div>
+                    </div>
+                    <div class="cards-btn row mt-3">
+                        <div class="col-12 d-flex justify-content-between">
+                            <button class="btn btn-success col-8 btn-block">Add to cart <i
+                                    class="fa fa-shopping-cart"></i></button>
+                            <button class="btn btn-outline-danger" (click)="deleteWish(wishList[i].id)"><i
+                                    class="fa fa-trash"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+
+
+</section>

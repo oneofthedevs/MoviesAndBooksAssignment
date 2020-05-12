@@ -1,3 +1,4 @@
+import { WishList } from './../class/WishList';
 import { OrderDetails } from './../class/OrderDetails';
 import { Cart } from './../class/Cart';
 import { Movie } from './../class/Movie';
@@ -26,13 +27,15 @@ export class HttpServiceService {
     amount: 0,
   };
 
+  IP;
+
   // tslint:disable-next-line: variable-name
   constructor(private _http: HttpClient) { }
 
   baseURL = 'http://localhost:3000';
 
   getAllProducts(): Observable<any[]> {
-    return this._http.get<any[]>(`${this.baseURL}/products`);
+    return this._http.get<any[]>(`${this.baseURL}/products`, this.httpHeader);
   }
 
   getAllMovies(): Observable<Movie[]> {
@@ -48,16 +51,16 @@ export class HttpServiceService {
   }
 
   getDeatils(id): Observable<any> {
-    return this._http.get<any>(`${this.baseURL}/products/${id}`);
+    return this._http.get<any>(`${this.baseURL}/products/${id}`, this.httpHeader);
   }
 
   getCartItems(): Observable<any> {
-    return this._http.get<any>(`${this.baseURL}/cart`);
+    return this._http.get<any>(`${this.baseURL}/cart`, this.httpHeader);
   }
 
   getCartItem(id: number): Observable<Cart> {
     console.log(`Finding Cart Item`);
-    return this._http.get<Cart>(`${this.baseURL}/cart/${id}`);
+    return this._http.get<Cart>(`${this.baseURL}/cart/${id}`, this.httpHeader);
   }
 
   addToCart(Inid: number): Observable<Cart> {
@@ -71,8 +74,25 @@ export class HttpServiceService {
     return this._http.post<Cart>(`${this.baseURL}/cart`, cartItem, this.httpHeader);
   }
 
+  updateToCart(id: number) {
+  }
+
   deleteCartItem(id): Observable<Cart> {
     return this._http.delete<Cart>(`${this.baseURL}/cart/${id}`, this.httpHeader);
+  }
+
+  addToWish(item: WishList): Observable<WishList> {
+    return this._http.post<WishList>(`${this.baseURL}/WishList`, item, this.httpHeader);
+  }
+
+  getWishList(thisip): Observable<WishList[]> {
+    return this._http.get<WishList[]>(`${this.baseURL}/WishList`, this.httpHeader).pipe(
+      map(data => data.filter(item => item.ip === thisip))
+    );
+  }
+
+  deleteWishItem(id: number): Observable<WishList> {
+    return this._http.delete<WishList>(`${this.baseURL}/WishList/${id}`, this.httpHeader);
   }
 
 }

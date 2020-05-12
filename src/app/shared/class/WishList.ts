@@ -1,6 +1,5 @@
 export class WishList {
     id: number;
-    productId: number;
+    productID: number;
     ip: string;
-    quantity: number;
 }

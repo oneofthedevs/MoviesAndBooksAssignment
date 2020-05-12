@@ -24,7 +24,17 @@ export class CartComponent implements OnInit, OnDestroy {
   dataList: any[];
   total;
   ngOnInit(): void {
-    this.paymentForm = this.fb.group(this.service.OrderInfo);
+    this.paymentForm = this.fb.group({
+      id: [null],
+      name: ['', [
+        Validators.required,
+        Validators.minLength(2)]],
+      address: ['', [
+        Validators.required,
+        Validators.minLength(5)]],
+      upiId: [null, Validators.required],
+      amount: [null]
+    });
     // tslint:disable-next-line: deprecation
     // this.paymentForm.valueChanges.subscribe(console.log);
     this.getCartItems();
@@ -80,7 +90,8 @@ export class CartComponent implements OnInit, OnDestroy {
   }
 
   reactive() {
-    this.service.OrderInfo = this.paymentForm.value;
+    console.log(this.paymentForm.value);
+    this.service.OrderInfo = Object.assign({}, this.paymentForm.value);
     this.service.OrderInfo.amount = this.total;
     console.log(this.service.OrderInfo);
     this.data.set(this.service.OrderInfo);

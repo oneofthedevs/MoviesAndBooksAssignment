@@ -1,3 +1,4 @@
+import { GetIPService } from './../shared/services/get-ip.service';
 import { DataTransferService } from './../shared/services/data-transfer.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpServiceService } from './../shared/services/http-service.service';
@@ -10,10 +11,11 @@ import { ComponentsComponent } from './components/components.component';
 import { DetailsComponent } from './components/details/details.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { CartComponent } from './components/cart/cart.component';
+import { WishlistComponent } from './components/wishlist/wishlist.component';
 
 
 @NgModule({
-  declarations: [NavbarComponent, ComponentsComponent, DetailsComponent, DashboardComponent, CartComponent],
+  declarations: [NavbarComponent, ComponentsComponent, DetailsComponent, DashboardComponent, CartComponent, WishlistComponent],
   imports: [
     CommonModule,
     ShoppingModuleRoutingModule,
@@ -22,7 +24,8 @@ import { CartComponent } from './components/cart/cart.component';
   ],
   providers: [
     HttpServiceService,
-    DataTransferService
+    DataTransferService,
+    GetIPService
   ]
 })
 export class ShoppingModuleModule { }

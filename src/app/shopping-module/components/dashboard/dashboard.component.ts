@@ -1,3 +1,5 @@
+import { WishList } from './../../../shared/class/WishList';
+import { GetIPService } from './../../../shared/services/get-ip.service';
 import { Movie } from './../../../shared/class/Movie';
 import { Book } from './../../../shared/class/Book';
 import { HttpServiceService } from './../../../shared/services/http-service.service';
@@ -14,16 +16,19 @@ import { Cart } from 'src/app/shared/class/Cart';
 export class DashboardComponent implements OnInit, OnDestroy {
 
   // tslint:disable-next-line: variable-name
-  constructor(public service: HttpServiceService, private _router: Router) { }
+  constructor(public service: HttpServiceService, private _router: Router, private _ip: GetIPService) { }
 
   Products: any[];
   Movies: Movie[];
   Books: Book[];
   cartItems: Cart[];
+  IP;
+  Wish: WishList;
 
   public unsub = new SubSink();
   ngOnInit(): void {
     this.getProducts();
+    this.getIP();
     console.log(this.service.OrderInfo);
     // this.getCartItems();
     // this.getMovies();
@@ -34,6 +39,20 @@ export class DashboardComponent implements OnInit, OnDestroy {
       .subscribe(data => {
         this.Products = data;
         console.log(this.Products);
+      });
+  }
+
+  getBooks() {
+    this.service.getAllBooks()
+      .subscribe(res => {
+        this.Products = res;
+      });
+  }
+
+  getMovies() {
+    this.service.getAllMovies()
+      .subscribe(res => {
+        this.Products = res;
       });
   }
 
@@ -61,20 +80,21 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.service.addToCart(Inid).subscribe();
   }
 
+  getIP() {
+    return this._ip.getIP().subscribe(res => this.IP = res);
+  }
+
+  addToFav(thisid: number) {
+    this.Wish = {
+      id: Math.floor(Math.random() * 100000),
+      productID: thisid,
+      ip: this.IP.ip
+    };
+    console.log(this.Wish);
+    this.service.addToWish(this.Wish).subscribe(() => console.log('Added to WishList'));
+  }
+
   ngOnDestroy(): void {
     this.unsub.unsubscribe();
   }
-  // getMovies() {
-  //   this.service.getAllMovies().subscribe(data => {
-  //     this.Movies = data;
-  //     console.log(this.Movies);
-  //   });
-  // }
-
-  // getBooks() {
-  //   this.service.getAllBooks().subscribe(data => {
-  //     this.Books = data;
-  //     console.log(this.Books);
-  //   });
-  // }
 }

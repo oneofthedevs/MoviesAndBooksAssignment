@@ -1,3 +1,4 @@
+import { WishlistComponent } from './components/wishlist/wishlist.component';
 import { CartComponent } from './components/cart/cart.component';
 import { ComponentsComponent } from './components/components.component';
 import { DetailsComponent } from './components/details/details.component';
@@ -27,6 +28,10 @@ const routes: Routes = [
       {
         path: 'cart',
         component: CartComponent
+      },
+      {
+        path: 'wishlist',
+        component: WishlistComponent
       },
       {
         path: '**',

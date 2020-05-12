@@ -1,5 +1,11 @@
 <section class="container">
     <div class="row">
+        <div class="col-12 d-flex justify-content-center">
+            <h3>Filter: </h3>
+            <button class="btn btn-primary ml-2 mr-2" (click)="getProducts()">All</button>
+            <button class="btn btn-primary ml-2 mr-2" (click)="getMovies()">Movies</button>
+            <button class="btn btn-primary ml-2 mr-2" (click)="getBooks()">Books</button>
+        </div>
         <div class="col-lg-3 col-md-6 col-12" *ngFor="let item of Products">
             <div class="cards">
                 <div class="cards-data" (click)="goToDetails(item.id)">
@@ -29,7 +35,8 @@
                     <div class="col-12 d-flex justify-content-between">
                         <button class="btn btn-success col-8 btn-block" (click)="addToCart(item.id)">Add to cart <i
                                 class="fa fa-shopping-cart"></i></button>
-                        <button class="btn btn-outline-danger"><i class="fa fa-heart"></i></button>
+                        <button class="btn btn-outline-danger" (click)="addToFav(item.id)"><i
+                                class="fa fa-heart"></i></button>
                     </div>
                 </div>
             </div>
