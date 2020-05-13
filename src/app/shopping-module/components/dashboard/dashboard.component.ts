@@ -22,6 +22,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
   cartItems: Cart[];
   IP;
   Wish: WishList;
+  pageSize = 8;
+  p = 1;
+  total;
 
   public unsub = new SubSink();
   ngOnInit(): void {
@@ -36,6 +39,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.service.getAllProducts()
       .subscribe(data => {
         this.Products = data;
+        this.total = data.length;
+        console.log(data.length);
         console.log(this.Products);
       });
   }
@@ -44,6 +49,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.service.getAllBooks()
       .subscribe(res => {
         this.Products = res;
+        this.total = res.length;
       });
   }
 
@@ -51,6 +57,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.service.getAllMovies()
       .subscribe(res => {
         this.Products = res;
+        this.total = res.length;
       });
   }
 
@@ -113,13 +120,23 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   addToFav(thisid: number) {
-    this.Wish = {
-      id: Math.floor(Math.random() * 100000),
-      productID: thisid,
-      ip: this.IP.ip
-    };
-    console.log(this.Wish);
-    this.service.addToWish(this.Wish).subscribe(() => console.log('Added to WishList'));
+    console.log('Clicked');
+    console.log(this.IP.ip);
+    console.log(thisid);
+    this.service.getWishListSpecific(this.IP.ip, thisid).subscribe(res => {
+      if (res.length > 0) {
+        console.log('Already In the WishList');
+      }
+      else {
+        console.log('Not in Wish');
+        this.Wish = {
+          id: Math.floor(Math.random() * 100000),
+          productID: thisid,
+          ip: this.IP.ip
+        }
+        this.service.addToWish(this.Wish).subscribe();
+      }
+    });
   }
 
   ngOnDestroy(): void {

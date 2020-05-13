@@ -43,21 +43,14 @@ export class DetailsComponent implements OnInit, OnDestroy {
       }
       else {
         console.log('Not in Wish');
-        // this.Wish = {
-        //   id: Math.floor(Math.random() * 100000),
-        //   productID: thisid,
-        //   ip: this.IP.ip
-        // }
-        // this.service.addToWish(this.Wish).subscribe();
+        this.Wish = {
+          id: Math.floor(Math.random() * 100000),
+          productID: thisid,
+          ip: this.IP.ip
+        }
+        this.service.addToWish(this.Wish).subscribe();
       }
-    })
-    // this.Wish = {
-    //   id: Math.floor(Math.random() * 100000),
-    //   productID: thisid,
-    //   ip: this.IP.ip
-    // };
-    // console.log(this.Wish);
-    // this.service.addToWish(this.Wish).subscribe(() => console.log('Added to WishList'));
+    });
   }
 
 

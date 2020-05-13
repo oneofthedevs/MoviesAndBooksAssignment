@@ -107,12 +107,7 @@ export class HttpServiceService {
 
   getWishListSpecific(thisip: string, id: number): Observable<WishList[]> {
     return this._http.get<WishList[]>(`${this.baseURL}/WishList`, this.httpHeader).pipe(
-      map(data => data.filter(item => {
-        (item.ip == thisip && item.productID == id);
-        console.log(item.ip + ' ' + thisip);
-        console.log(item.productID + ' ' + id);
-      }))
+      map(data => data.filter(item => item.ip === thisip).filter(item => item.productID === id))
     );
   }
-
 }
