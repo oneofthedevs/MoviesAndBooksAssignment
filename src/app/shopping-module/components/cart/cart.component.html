@@ -1,13 +1,14 @@
 <div class="container">
     <div class="row mt-4">
+        <!-- Cart Items List -->
         <div class="col-lg-8">
             <table class="table">
                 <thead class="thead-dark">
                     <tr>
                         <th scope="col">Product Name</th>
                         <th scope="col">Category</th>
-                        <th scope="col">Quantity</th>
-                        <th scope="col">Price</th>
+                        <th scope="col" class="text-center">Quantity</th>
+                        <th scope="col" class="text-center">Price</th>
                         <th scope="col"></th>
                     </tr>
                 </thead>
@@ -15,28 +16,48 @@
                     <tr *ngFor="let item of dataList; let i = index">
                         <td>{{item.Name}}</td>
                         <td>{{item.Category}}</td>
-                        <td class="text-center">{{list[i].quantity}}</td>
+                        <td class="text-center">
+                            <button class="btn btn-warning btn-sm" (click)="minusItem(list[i].id)"
+                                title="Decrease quantity By 1">
+                                <i class="fa fa-minus"></i>
+                            </button>
+                            &nbsp;{{list[i].quantity}}&nbsp;
+                            <ng-container *ngIf="item.Quantity > 0; else outOfStock">
+                                <button class="btn btn-info btn-sm" (click)="plusItem(list[i].id)"
+                                    title="Decrease quantity By 1">
+                                    <i class="fa fa-plus"></i>
+                                </button>
+                            </ng-container>
+                            <ng-template #outOfStock>
+                                <button class="btn btn-dark btn-sm" disabled title="Out Of Stock"
+                                    style="cursor: default;">
+                                    <i class="fa fa-plus"></i>
+                                </button>
+                            </ng-template>
+
+
+                        </td>
                         <td class="text-center">{{item.Amount | currency: 'INR'}}</td>
                         <td>
-                            <button class="btn btn-danger btn-sm" (click)="deleteItem(list[i].id)"><i
-                                    class="fa fa-trash"></i></button>
+                            <button class="btn btn-danger btn-sm" (click)="deleteItem(list[i].id, list[i].quantity)"
+                                title="Delete from cart">
+                                <i class="fa fa-trash"></i>
+                            </button>
                         </td>
                     </tr>
                     <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td colspan="3"></td>
                         <td class="text-center"><b>{{total | currency: 'INR'}}</b></td>
                         <td></td>
                     </tr>
                 </tbody>
             </table>
         </div>
-        <div class="col-lg-4">
+        <!-- Order Details Form -->
+        <div class="col-lg-4 bg-dark p-3" style="color: #fff; border-radius: 5px;">
             <form class="col-12" [formGroup]="paymentForm">
-                Value: {{paymentForm.value | json}}
                 <div class="col-12">
-                    <h4>Enter your Details</h4>
+                    <h4 style="font-size: 24px;">Enter your Details</h4>
                     <div class="form-group mt-3">
                         <label for="">Name</label>
                         <input class="form-control" type="text" name="username" required="required"
@@ -49,8 +70,8 @@
                     </div>
                     <div class="form-group">
                         <label for="upiID">UPI ID</label>
-                        <input class="form-control" type="text" name="upiID" required="required"
-                            formControlName="upiId">
+                        <input class="form-control" type="text" name="upiID" required="required" formControlName="upiId"
+                            autocomplete="off">
                     </div>
                     <div class="form-group">
                         <p>Total Amount to be Paid: <b>{{total | currency: 'INR'}}</b></p>
@@ -59,7 +80,7 @@
                         <button class="btn btn-success col-7" type="submit" [disabled]="paymentForm.invalid"
                             (click)="reactive()">Go to
                             checkout</button>
-                        <button class="btn btn-outline-danger col-4 offset-1" (click)="reset()">Cancel</button>
+                        <button class="btn btn-outline-danger col-4 offset-1" (click)="reset()">Reset</button>
                     </div>
                 </div>
             </form>

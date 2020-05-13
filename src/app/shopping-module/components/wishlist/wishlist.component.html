@@ -32,8 +32,15 @@
                     </div>
                     <div class="cards-btn row mt-3">
                         <div class="col-12 d-flex justify-content-between">
-                            <button class="btn btn-success col-8 btn-block">Add to cart <i
-                                    class="fa fa-shopping-cart"></i></button>
+                            <ng-container *ngIf="item.Quantity > 0; else soldout">
+                                <button class="btn btn-success col-8 btn-block" (click)="addToCart(i, item.id)">Add to
+                                    cart
+                                    <i class="fa fa-shopping-cart"></i></button>
+                            </ng-container>
+                            <ng-template #soldout>
+                                <button class="btn btn-dark col-8 btn-block" style="cursor: default;" disabled>Out of
+                                    stock</button>
+                            </ng-template>
                             <button class="btn btn-outline-danger" (click)="deleteWish(wishList[i].id)"><i
                                     class="fa fa-trash"></i></button>
                         </div>

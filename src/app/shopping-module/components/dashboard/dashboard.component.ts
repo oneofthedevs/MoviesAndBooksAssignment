@@ -19,8 +19,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   constructor(public service: HttpServiceService, private _router: Router, private _ip: GetIPService) { }
 
   Products: any[];
-  Movies: Movie[];
-  Books: Book[];
   cartItems: Cart[];
   IP;
   Wish: WishList;
@@ -71,13 +69,43 @@ export class DashboardComponent implements OnInit, OnDestroy {
     console.log(this.cartItems);
   }
 
-  addToCart(Inid: number) {
-    console.log(Inid);
-    // this.cartItems = this.cartItems.filter(ele => {
-    //   ele.id === Inid;
-    // });
-    // console.log(this.cartItems);
-    this.service.addToCart(Inid).subscribe();
+  // Add or Update Quantity of Products in Cart
+  addToCart(Inid: number, itemId: number) {
+    if (this.Products[Inid].Quantity > 0) {
+      console.log(this.Products[Inid].Quantity);
+      try {
+        this.service.getCartItemByProductId(itemId).subscribe(res => {
+          console.log(res);
+          if (res.length === 0) {
+            console.log('%c Does Not Exist', 'background: yellow, color: green');
+            console.log('Product ID: ' + this.Products[Inid].id);
+            this.service.addToCart(this.Products[Inid].id).subscribe(() => {
+              console.log('Successfully Added to Cart');
+              this.Products[Inid].Quantity--;
+              this.service.updateProduct(this.Products[Inid]).subscribe(() => {
+                console.log('Cart Quantity Successfully Decreased');
+              });
+            });
+          }
+          else {
+            console.log('%c Exist', 'background: blue, color: red');
+            console.log(res[0]);
+            console.log(res[0].quantity);
+            res[0].quantity++;
+            this.service.updateToCart(res[0]).subscribe(() => {
+              console.log('Cart Quantity Increased');
+              this.Products[Inid].Quantity--;
+              this.service.updateProduct(this.Products[Inid]).subscribe(() => {
+                console.log('Cart Quantity Successfully Decreased');
+              });
+            });
+          }
+        });
+      }
+      catch{
+        alert('There seems to be an issue with the server, Please try ahain later');
+      }
+    }
   }
 
   getIP() {

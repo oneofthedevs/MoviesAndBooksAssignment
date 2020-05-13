@@ -14,7 +14,7 @@ export class WishlistComponent implements OnInit {
   wishList: WishList[] = [];
   data: any[] = [];
   ip;
-  constructor(public http: HttpServiceService, private _router: Router, private _ip: GetIPService) { }
+  constructor(public http: HttpServiceService, private _router: Router, private _ip: GetIPService, public service: HttpServiceService) { }
 
   ngOnInit(): void {
     this.getAll();
@@ -23,7 +23,6 @@ export class WishlistComponent implements OnInit {
   getAll() {
     this._ip.getIP().subscribe(res => {
       this.ip = res;
-      console.log(this.ip);
       this.getWishList(this.ip.ip);
     });
   }
@@ -34,14 +33,12 @@ export class WishlistComponent implements OnInit {
       res.forEach(item => {
         this.getDetails(item.productID);
       });
-      console.log(this.data);
     });
   }
   getDetails(itemid: number) {
     this.data = [];
     this.http.getDeatils(itemid).subscribe(res => {
       this.data.push(res);
-      console.log(res);
     });
   }
   goToDetails(id: number) {
@@ -50,8 +47,36 @@ export class WishlistComponent implements OnInit {
 
   deleteWish(id: number) {
     this.http.deleteWishItem(id).subscribe(() => {
-      this.getWishList(this.ip);
+      this.getAll();
     });
+  }
+  addToCart(i: number, Inid: number) {
+    if (this.data[i].Quantity > 0) {
+      console.log(this.data[i].Quantity);
+      try {
+        this.service.getCartItemByProductId(Inid).subscribe(res => {
+          console.log(res);
+          if (res.length === 0) {
+            this.service.addToCart(this.data[i].id).subscribe(() => {
+              this.data[i].Quantity--;
+              this.service.updateProduct(this.data[i]).subscribe(() => {
+              });
+            });
+          }
+          else {
+            res[0].quantity++;
+            this.service.updateToCart(res[0]).subscribe(() => {
+              this.data[i].Quantity--;
+              this.service.updateProduct(this.data[i]).subscribe(() => {
+              });
+            });
+          }
+        });
+      }
+      catch{
+        alert('There seems to be an issue with the server, Please try ahain later');
+      }
+    }
   }
 
 }

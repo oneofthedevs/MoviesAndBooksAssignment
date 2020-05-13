@@ -4,7 +4,7 @@ import { OrderDetails } from './../../../shared/class/OrderDetails';
 import { Cart } from './../../../shared/class/Cart';
 import { HttpServiceService } from './../../../shared/services/http-service.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SubSink } from 'subsink';
 
 @Component({
@@ -35,11 +35,9 @@ export class CartComponent implements OnInit, OnDestroy {
       upiId: [null, Validators.required],
       amount: [null]
     });
-    // tslint:disable-next-line: deprecation
-    // this.paymentForm.valueChanges.subscribe(console.log);
     this.getCartItems();
   }
-
+  // Reactive From stuff
   get name() {
     return this.paymentForm.get('name');
   }
@@ -50,16 +48,17 @@ export class CartComponent implements OnInit, OnDestroy {
     return this.paymentForm.get('upiId');
   }
 
+  // Database Functions
+  // Getting all items from cart DB
   getCartItems() {
     this.service.getCartItems()
       .subscribe(data => {
-        console.log('Inside Fetch Items');
         this.list = data;
         this.countTotal();
-        console.log('Outside Fetch Items');
       });
   }
 
+  // Counting total amount
   countTotal() {
     this.dataList = [];
     this.total = 0;
@@ -67,26 +66,70 @@ export class CartComponent implements OnInit, OnDestroy {
       this.service.getDeatils(item.ProductId)
         .subscribe(data => {
           this.dataList.push(data);
-          this.total = this.total + data.Amount;
+          this.total = this.total + (data.Amount * item.quantity);
         });
     });
   }
 
-  deleteItem(id: number) {
-    console.log(id);
-    this.service.deleteCartItem(id).subscribe(() => {
-      console.log(`Fetch Items Called`);
-      this.getCartItems();
-      console.log(`Fetch Items Ended`);
-    },
-      err => console.log(`%cError Occured: ${err}` + 'color: red'));
+  // Delete item from cart
+  deleteItem(id: number, quantity: number) {
+    this.service.getCartItem(id).subscribe(res => {
+      this.service.getDeatils(res.ProductId).subscribe(data => {
+        data.Quantity = data.Quantity + quantity;
+        this.service.updateProduct(data).subscribe(() => {
+          this.service.deleteCartItem(res.id).subscribe(() => {
+            this.getCartItems();
+          });
+        });
+      });
+    });
   }
 
-  placeOrder(newOrder: OrderDetails) {
-    newOrder.amount = this.total;
-    console.log(newOrder);
-    this.data.set(newOrder);
-    this.router.navigate(['./order/summary']);
+  minusItem(id: number) {
+    this.service.getCartItem(id).subscribe(res => {
+      if (res.quantity === 1) {
+        console.log('Quantity One Called');
+        this.service.getDeatils(res.ProductId).subscribe(data => {
+          data.Quantity++;
+          this.service.updateProduct(data).subscribe(() => {
+            console.log('Product Updated')
+            this.service.deleteCartItem(res.id).subscribe(() => {
+              this.getCartItems();
+            })
+          });
+        });
+      }
+      else {
+        console.log('Quantity One Called');
+        res.quantity--;
+        this.service.updateToCart(res).subscribe(() => {
+          console.log('Cart Updated')
+          this.service.getDeatils(res.ProductId).subscribe(item => {
+            item.Quantity++;
+            this.service.updateProduct(item).subscribe(() => {
+              console.log('%cLeft: ' + item.Quantity, 'color: green');
+              console.log('Product Updated');
+              this.getCartItems();
+            });
+          });
+        });
+      }
+    });
+  }
+
+  plusItem(id: number) {
+    this.service.getCartItem(id).subscribe(res => {
+      this.service.getDeatils(res.ProductId).subscribe(item => {
+        item.Quantity--;
+        console.log('%cLeft: ' + item.Quantity, 'color: green');
+        this.service.updateProduct(item).subscribe(() => {
+          res.quantity++;
+          this.service.updateToCart(res).subscribe(() => {
+            this.getCartItems();
+          });
+        })
+      });
+    });
   }
 
   reactive() {
@@ -98,6 +141,7 @@ export class CartComponent implements OnInit, OnDestroy {
     this.router.navigate(['./order/summary']);
   }
 
+  // Reset order details
   reset() {
     console.log('reset called');
     this.paymentForm.reset();

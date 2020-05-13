@@ -26,10 +26,16 @@
                     </div>
                     <div class="row mt-4">
                         <div class="col-12">
-                            <button class="btn btn-success btn-lg">Add to cart <i
-                                    class="fa fa-shopping-cart"></i></button>
-                            <button class="btn btn-outline-danger btn-lg wishlist">Add to wishlist <i
-                                    class="fa fa-heart"></i></button>
+                            <ng-container *ngIf="details.Quantity > 0; else soldout">
+                                <button class="btn btn-success  btn-lg" (click)="addToCart(details.id)">Add to cart
+                                    <i class="fa fa-shopping-cart"></i></button>
+                            </ng-container>
+                            <ng-template #soldout>
+                                <button class="btn btn-dark  btn-lg" style="cursor: default;" disabled>Out of
+                                    stock</button>
+                            </ng-template>
+                            <button class="btn btn-outline-danger btn-lg wishlist" (click)="addToFav(details.id)">Add to
+                                wishlist <i class="fa fa-heart"></i></button>
                         </div>
                     </div>
                 </div>
@@ -47,9 +53,9 @@
                     <p class="desc">{{ details.Description}}</p>
                     <div class="row mt-4">
                         <div class="col-6 part">
-                            <p><b>Year Publishede:</b> {{ details.YearOfRelease }}</p>
+                            <p><b>Year Published:</b> {{ details.YearOfRelease }}</p>
                             <p><b>Written By:</b> {{ details.Writer }}</p>
-                            <p><b>GoodReads:</b> {{ details.GoodReadsRatings | number: '1.1-2' }} <i class="fa fa-star"
+                            <p><b>Goodreads:</b> {{ details.GoodReadsRatings | number: '1.1-2' }} <i class="fa fa-star"
                                     style="color: darkgoldenrod;"></i></p>
                         </div>
                         <div class="col-6">
@@ -58,10 +64,16 @@
                     </div>
                     <div class="row mt-4">
                         <div class="col-12">
-                            <button class="btn btn-success btn-lg">Add to cart <i
-                                    class="fa fa-shopping-cart"></i></button>
-                            <button class="btn btn-outline-danger btn-lg wishlist">Add to wishlist <i
-                                    class="fa fa-heart"></i></button>
+                            <ng-container *ngIf="details.Quantity > 0; else soldout">
+                                <button class="btn btn-success  btn-lg" (click)="addToCart(details.id)">Add to cart
+                                    <i class="fa fa-shopping-cart"></i></button>
+                            </ng-container>
+                            <ng-template #soldout>
+                                <button class="btn btn-dark btn-lg " style="cursor: default;" disabled>Out of
+                                    stock</button>
+                            </ng-template>
+                            <button class="btn btn-outline-danger btn-lg wishlist" (click)="addToFav(details.id)">Add to
+                                wishlist <i class="fa fa-heart"></i></button>
                         </div>
                     </div>
                 </div>

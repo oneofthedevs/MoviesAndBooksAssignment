@@ -21,7 +21,7 @@
       "Genre": "Historical fiction",
       "YearOfRelease": 2016,
       "Amount": 340,
-      "Quantity": 3,
+      "Quantity": 10,
       "Description": "In 1930, the American historian and philosopher Will Durant wrote that Britain’s ‘conscious and deliberate bleeding of India… [was the] greatest crime in all history’. He was not the only one to denounce the rapacity and cruelty of British rule, and his assessment was not exaggerated. ",
       "Writer": "Shashi Tharoor ",
       "GoodReadsRatings": 4,
@@ -35,7 +35,7 @@
       "Genre": "Adventure",
       "YearOfRelease": 1999,
       "Amount": 171,
-      "Quantity": 3,
+      "Quantity": 5,
       "Description": "A bank of clouds was assembling on the not-so-distant horizon, but journalist-mountaineer Jon Krakauer, standing on the summit of Mt. Everest, saw nothing that suggested that a murderous storm was bearing down. He was wrong. ",
       "Writer": "Jon Krakauer",
       "GoodReadsRatings": 4,
@@ -49,7 +49,7 @@
       "Genre": "Adventure",
       "YearOfRelease": 2013,
       "Amount": 199,
-      "Quantity": 3,
+      "Quantity": 1,
       "Description": "Think of the high seas and of a buccaneer ship; of a wild seaman with a sea chest full of gold; of Long John Silver; of a buried treasure and of young Jim Hawkins, the boy with the treasure map the key to it all. ",
       "Writer": "Robert Louis Stevenson ",
       "GoodReadsRatings": 3,
@@ -78,7 +78,7 @@
       "Genre": "Action",
       "ReleaseDate": "16/01/2020",
       "Amount": 300,
-      "Quantity": 3,
+      "Quantity": 2,
       "ImdbRating": 6.7,
       "Director": "Adil EI Arbi",
       "Cast": [
@@ -98,7 +98,7 @@
       "Genre": "Adventure",
       "ReleaseDate": "7/11/2015",
       "Amount": 250,
-      "Quantity": 4,
+      "Quantity": 0,
       "ImdbRating": 8,
       "Director": "Ridley Scott",
       "Cast": [
@@ -137,7 +137,7 @@
       "Genre": "Comady",
       "ReleaseDate": "20/5/2005",
       "Amount": 600,
-      "Quantity": 5,
+      "Quantity": 0,
       "ImdbRating": 7.5,
       "Director": "George Lucas",
       "Cast": [
@@ -172,19 +172,14 @@
   "Cart": [],
   "WishList": [
     {
-      "id": 65474,
-      "productID": 1,
+      "id": 79925,
+      "productID": 2,
       "ip": "103.232.236.125"
     },
     {
-      "id": 52271,
-      "productID": 2,
+      "id": 78569,
+      "productID": 51,
       "ip": "103.232.236.125"
-    },
-	{
-      "id": 52276,
-      "productID": 2,
-      "ip": "103.232.236.166"
     }
   ]
 }

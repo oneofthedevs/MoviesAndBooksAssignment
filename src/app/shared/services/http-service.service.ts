@@ -39,15 +39,15 @@ export class HttpServiceService {
   }
 
   getAllMovies(): Observable<Movie[]> {
-    return this._http.get<Movie[]>(`${this.baseURL}/products`, this.httpHeader).pipe(
-      map(data => data.filter(items => items.Category === 'Movie'))
-    );
+    return this._http.get<Movie[]>(`${this.baseURL}/products`, this.httpHeader)
+      .pipe(map(data => data.filter(items => items.Category === 'Movie'))
+      );
   }
 
   getAllBooks(): Observable<Book[]> {
-    return this._http.get<Book[]>(`${this.baseURL}/products`, this.httpHeader).pipe(
-      map(data => data.filter(items => items.Category === 'Book'))
-    );
+    return this._http.get<Book[]>(`${this.baseURL}/products`, this.httpHeader)
+      .pipe(map(data => data.filter(items => items.Category === 'Book'))
+      );
   }
 
   getDeatils(id): Observable<any> {
@@ -63,6 +63,11 @@ export class HttpServiceService {
     return this._http.get<Cart>(`${this.baseURL}/cart/${id}`, this.httpHeader);
   }
 
+  getCartItemByProductId(id: number): Observable<Cart[]> {
+    return this._http.get<Cart[]>(`${this.baseURL}/Cart`, this.httpHeader)
+      .pipe(map(data => data.filter(item => item.ProductId === id)));
+  }
+
   addToCart(Inid: number): Observable<Cart> {
     let cartItem: Cart;
     console.log(`InsideAdd`);
@@ -74,7 +79,12 @@ export class HttpServiceService {
     return this._http.post<Cart>(`${this.baseURL}/cart`, cartItem, this.httpHeader);
   }
 
-  updateToCart(id: number) {
+  updateToCart(item): Observable<any> {
+    return this._http.put<any>(`${this.baseURL}/Cart/${item.id}`, item, this.httpHeader);
+  }
+
+  updateProduct(item): Observable<any> {
+    return this._http.put<any>(`${this.baseURL}/Products/${item.id}`, item, this.httpHeader);
   }
 
   deleteCartItem(id): Observable<Cart> {
@@ -93,6 +103,16 @@ export class HttpServiceService {
 
   deleteWishItem(id: number): Observable<WishList> {
     return this._http.delete<WishList>(`${this.baseURL}/WishList/${id}`, this.httpHeader);
+  }
+
+  getWishListSpecific(thisip: string, id: number): Observable<WishList[]> {
+    return this._http.get<WishList[]>(`${this.baseURL}/WishList`, this.httpHeader).pipe(
+      map(data => data.filter(item => {
+        (item.ip == thisip && item.productID == id);
+        console.log(item.ip + ' ' + thisip);
+        console.log(item.productID + ' ' + id);
+      }))
+    );
   }
 
 }
