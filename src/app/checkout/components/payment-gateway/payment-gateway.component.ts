@@ -31,7 +31,13 @@ export class PaymentGatewayComponent implements OnInit {
     return this.OTP.get('pin');
   }
   confirm() {
-    console.log(this.OTP.value);
+    if (this.OTP.value.pin === '778899') {
+      this.flag = 2;
+    }
+    else {
+      console.log(this.OTP.value.pin);
+      this.flag = 1;
+    }
   }
   cancel() {
     this.data.remove();

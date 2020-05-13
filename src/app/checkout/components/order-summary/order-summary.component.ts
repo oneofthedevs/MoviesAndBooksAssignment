@@ -26,15 +26,17 @@ export class OrderSummaryComponent implements OnInit {
   getCartItems() {
     this.serivce.getCartItems().subscribe(data => {
       this.cartItems = data;
+      console.log(this.cartItems);
       this.getItemData();
     });
   }
 
   getItemData() {
     this.itemData = [];
-    this.cartItems.forEach(item => {
+    this.cartItems.forEach((item, i) => {
       this.serivce.getDeatils(item.ProductId).subscribe(data => {
         console.log(data);
+        data.Amount = data.Amount * this.cartItems[i].quantity;
         this.itemData.push(data);
       }
       );
@@ -45,6 +47,11 @@ export class OrderSummaryComponent implements OnInit {
   place() {
     this.data.set(this.sum);
     this._router.navigate(['./order/payment']);
+  }
+
+  goBack() {
+    this.data.remove();
+    this._router.navigate(['../catalog/cart']);
   }
 
 }

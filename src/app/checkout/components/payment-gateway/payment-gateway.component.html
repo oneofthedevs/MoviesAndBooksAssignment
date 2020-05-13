@@ -6,18 +6,26 @@
                 <p class="text-center">An OTP has been sent to your mobile number
                 </p>
                 <form [formGroup]="OTP">
+                    <p *ngIf="flag === 1" class="bg-danger text-center p-1" style="color: #fff;">
+                        Wrong OTP, please try Again
+                    </p>
+                    <p *ngIf="flag === 2" class="bg-success text-center p-1" style="color: #fff;">
+                        Voila! c'est correct
+                    </p>
                     <div class="form-group">
-                        <input type="text" class="form-control" formControlName="pin">
+                        <input type="text" class="form-control text-center" formControlName="pin" name="pin">
                     </div>
                 </form>
                 <div class="row">
-                    <button class="btn btn-success" [disabled]="OTP.invalid" (click)="confirm()">Validate</button>
+                    <button class="btn btn-success" [disabled]="OTP.invalid" (click)="confirm()">
+                        Pay securely&nbsp; &nbsp;<i class="fa fa-lock" aria-hidden="true"></i>
+                    </button>
                 </div>
                 <div class="row mt-4">
                     <p class="resend">Resend One-Time Password</p>
                 </div>
                 <div class="row mt-1">
-                    <button class="btn btn-sm btn-outline-danger" (click)="cancel()">Cancel Order</button>
+                    <button class="btn btn-sm btn-outline-danger" (click)="cancel()">Cancel</button>
                 </div>
             </div>
         </div>

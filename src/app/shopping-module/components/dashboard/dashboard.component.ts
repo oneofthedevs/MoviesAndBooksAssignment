@@ -7,6 +7,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { SubSink } from 'subsink';
 import { Cart } from 'src/app/shared/class/Cart';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-dashboard',
@@ -16,7 +17,7 @@ import { Cart } from 'src/app/shared/class/Cart';
 export class DashboardComponent implements OnInit, OnDestroy {
 
   // tslint:disable-next-line: variable-name
-  constructor(public service: HttpServiceService, private _router: Router, private _ip: GetIPService) { }
+  constructor(public service: HttpServiceService, private _router: Router, private _ip: GetIPService, private _tost: ToastrService) { }
 
   Products: any[];
   cartItems: Cart[];
@@ -30,7 +31,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.getProducts();
     this.getIP();
-    console.log(this.service.OrderInfo);
+    // console.log(this.service.OrderInfo);
     // this.getCartItems();
     // this.getMovies();
   }
@@ -40,8 +41,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
       .subscribe(data => {
         this.Products = data;
         this.total = data.length;
-        console.log(data.length);
-        console.log(this.Products);
+        // console.log(data.length);
+        // console.log(this.Products);
       });
   }
 
@@ -62,48 +63,52 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   goToDetails(id: number) {
-    console.log('Clicked' + id);
+    // console.log('Clicked' + id);
     this._router.navigate([`./catalog/details/${id}`]);
   }
 
   getCartItems() {
-    console.log('cart Items called');
+    // console.log('cart Items called');
     this.service.getCartItems()
       .subscribe(data => {
         this.cartItems = data;
-        console.log(this.cartItems);
+        // console.log(this.cartItems);
       });
-    console.log(this.cartItems);
+    // console.log(this.cartItems);
   }
 
   // Add or Update Quantity of Products in Cart
   addToCart(Inid: number, itemId: number) {
+    // Checking if product is In-stock or not
     if (this.Products[Inid].Quantity > 0) {
       console.log(this.Products[Inid].Quantity);
       try {
+        // If not in Cart yet
         this.service.getCartItemByProductId(itemId).subscribe(res => {
-          console.log(res);
+          // console.log(res);
           if (res.length === 0) {
-            console.log('%c Does Not Exist', 'background: yellow, color: green');
-            console.log('Product ID: ' + this.Products[Inid].id);
+            // console.log('%c Does Not Exist', 'background: yellow, color: green');
+            // console.log('Product ID: ' + this.Products[Inid].id);
             this.service.addToCart(this.Products[Inid].id).subscribe(() => {
-              console.log('Successfully Added to Cart');
+              // console.log('Successfully Added to Cart');
               this.Products[Inid].Quantity--;
               this.service.updateProduct(this.Products[Inid]).subscribe(() => {
-                console.log('Cart Quantity Successfully Decreased');
+                this._tost.success(`${this.Products[Inid].Name} Added`, `Quantity in Cart: 1`);
+                // console.log('Cart Quantity Successfully Decreased');
               });
             });
           }
           else {
-            console.log('%c Exist', 'background: blue, color: red');
-            console.log(res[0]);
-            console.log(res[0].quantity);
+            // console.log('%c Exist', 'background: blue, color: red');
+            // console.log(res[0]);
+            // console.log(res[0].quantity);
             res[0].quantity++;
             this.service.updateToCart(res[0]).subscribe(() => {
-              console.log('Cart Quantity Increased');
+              // console.log('Cart Quantity Increased');
               this.Products[Inid].Quantity--;
               this.service.updateProduct(this.Products[Inid]).subscribe(() => {
-                console.log('Cart Quantity Successfully Decreased');
+                this._tost.success(`${this.Products[Inid].Name} + 1`, `Quantity in Cart: ${res[0].quantity}`);
+                // console.log('Cart Quantity Successfully Decreased');
               });
             });
           }
@@ -120,21 +125,22 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   addToFav(thisid: number) {
-    console.log('Clicked');
-    console.log(this.IP.ip);
-    console.log(thisid);
+    // console.log('Clicked');
+    // console.log(this.IP.ip);
+    // console.log(thisid);
     this.service.getWishListSpecific(this.IP.ip, thisid).subscribe(res => {
       if (res.length > 0) {
+        this._tost.info('Already in the WishList')
         console.log('Already In the WishList');
       }
       else {
-        console.log('Not in Wish');
+        // console.log('Not in Wish');
         this.Wish = {
           id: Math.floor(Math.random() * 100000),
           productID: thisid,
           ip: this.IP.ip
         }
-        this.service.addToWish(this.Wish).subscribe();
+        this.service.addToWish(this.Wish).subscribe(() => this._tost.success('Added to WishList'));
       }
     });
   }

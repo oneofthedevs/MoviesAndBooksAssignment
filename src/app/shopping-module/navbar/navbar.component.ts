@@ -1,4 +1,4 @@
-import { HttpServiceService } from './../../shared/services/http-service.service';
+// import { HttpServiceService } from './../../shared/services/http-service.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { SubSink } from 'subsink';
 
@@ -11,20 +11,20 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   public unsub = new SubSink();
 
-  constructor(public service: HttpServiceService) { }
+  constructor() { }
 
   count: number;
 
   ngOnInit(): void {
-    this.getCartCount();
+    // this.getCartCount();
   }
-  getCartCount() {
-    this.service.getCartItems()
-      .subscribe(data => {
-        this.count = data.length;
-        console.log(this.count);
-      });
-  }
+  // getCartCount() {
+  //   this.service.getCartItems()
+  //     .subscribe(data => {
+  //       this.count = data.length;
+  //       // console.log(this.count);
+  //     });
+  // }
 
   ngOnDestroy(): void {
     this.unsub.unsubscribe();
