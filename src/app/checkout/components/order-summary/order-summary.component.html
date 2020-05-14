@@ -1,42 +1,49 @@
-<div class="container main">
-    <div class="userDetails">
-        <h1>Order Summary</h1>
-        <div class="row">
-            <p class="col-12"><b>Name:</b> {{sum.name}}</p>
-            <p class="col-12"><b>Address:</b> {{sum.address}}</p>
-            <p class="col-12"><b>Payment Mode:</b> UPI</p>
-            <h3 class="col-12 orderTitle">Cart Items</h3>
-            <div class="col-12 tab">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th scope="col">Sr. No</th>
-                            <th scope="col">Name</th>
-                            <th scope="col" class="text-right">Quantity</th>
-                            <th scope="col" class="text-right">Category</th>
-                            <th scope="col" class="text-right">Amount</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let item of itemData; let i = index">
-                            <th scope="row">{{ i + 1 }}</th>
-                            <td>{{ item.Name }}</td>
-                            <td class="text-right">{{ cartItems[i].quantity }}</td>
-                            <td class="text-right">{{ item.Category }}</td>
-                            <td class="text-right">{{ item.Amount | currency: 'INR' }}</td>
-                        </tr>
-                        <tr>
-                            <td colspan="3"></td>
-                            <td class="text-right"><b>Total: {{ sum.amount | currency: 'INR' }}</b></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="col-12 d-flex justify-content-end">
-                <button class="btn btn-outline-danger mr-3" (click)="goBack()">Cancel</button>
+<div class="back">
+    <div class="container main">
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title><b>Order Summary</b></mat-card-title>
+                <mat-card-subtitle class="mt-2"><b>Name:</b> {{sum.name}}</mat-card-subtitle>
+                <mat-card-subtitle><b>Address:</b> {{sum.address}}</mat-card-subtitle>
+                <mat-card-subtitle><b>Payment Mode:</b> UPI</mat-card-subtitle>
+            </mat-card-header>
+            <div class="userDetails">
+                <div class="row">
+                    <h3 class="col-12 orderTitle">Cart Items</h3>
+                    <div class="col-12 tab">
+                        <table class="table custom-table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Sr. No</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col" class="text-right">Quantity</th>
+                                    <th scope="col" class="text-right">Category</th>
+                                    <th scope="col" class="text-right">Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of itemData; let i = index">
+                                    <th scope="row">{{ i + 1 }}</th>
+                                    <td>{{ item.Name }}</td>
+                                    <td class="text-right">{{ cartItems[i].quantity }}</td>
+                                    <td class="text-right">{{ item.Category }}</td>
+                                    <td class="text-right">{{ item.Amount | currency: 'INR' }}</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4"></td>
+                                    <td class="text-right"><b>Total: {{ sum.amount | currency: 'INR' }}</b></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-12 d-flex justify-content-end">
+                        <button class="btn btn-outline-danger mr-3" (click)="goBack()">Cancel</button>
 
-                <button class="btn btn-success" (click)="place()">Place Order</button>
+                        <button class="btn btn-success" (click)="place()">Place Order <i class="fa fa-truck"></i>
+                        </button>
+                    </div>
+                </div>
             </div>
-        </div>
+        </mat-card>
     </div>
 </div>

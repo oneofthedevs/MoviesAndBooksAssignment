@@ -13,7 +13,6 @@
             <div class="cards">
                 <div class="cards-data" (click)="goToDetails(item.id)">
                     <div class="imagediv">
-                        <!-- <span class="fav"><i class="fa fa-heart"></i></span> -->
                         <img [src]="item.Image" [alt]="item.Name">
                     </div>
                     <h3 class="text-center">{{item.Name}}</h3>
@@ -51,7 +50,7 @@
             </div>
         </div>
         <div class="col-12 text-center mt-3">
-            <pagination-controls class="p-0" id="foo" maxSize="5" directionLinks="true" (pageChange)="p = $event">
+            <pagination-controls id="foo" maxSize="5" directionLinks="true" (pageChange)="p = $event">
             </pagination-controls>
         </div>
     </div>

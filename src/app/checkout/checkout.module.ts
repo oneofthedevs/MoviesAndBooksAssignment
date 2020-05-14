@@ -3,6 +3,7 @@ import { DataTransferService } from './../shared/services/data-transfer.service'
 import { HttpServiceService } from './../shared/services/http-service.service';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { MaterialModules } from "../shared/material";
 
 import { CheckoutRoutingModule } from './checkout-routing.module';
 import { NavbarComponent } from './navbar/navbar.component';
@@ -17,7 +18,8 @@ import { ReactiveFormsModule } from '@angular/forms';
   imports: [
     CommonModule,
     CheckoutRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MaterialModules
   ],
   providers: [
     HttpServiceService,

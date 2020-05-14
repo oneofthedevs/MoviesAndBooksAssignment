@@ -13,7 +13,7 @@ import { CartComponent } from './components/cart/cart.component';
 import { WishlistComponent } from './components/wishlist/wishlist.component';
 import { GetIPService } from './../shared/services/get-ip.service';
 import { DataTransferService } from './../shared/services/data-transfer.service';
-
+import { MaterialModules } from '../shared/material';
 
 @NgModule({
   declarations: [NavbarComponent, ComponentsComponent, DetailsComponent, DashboardComponent, CartComponent, WishlistComponent],
@@ -22,7 +22,8 @@ import { DataTransferService } from './../shared/services/data-transfer.service'
     ShoppingModuleRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    MaterialModules
   ],
   providers: [
     HttpServiceService,

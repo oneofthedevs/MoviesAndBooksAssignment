@@ -2,22 +2,33 @@ import { GetIPService } from './../../../shared/services/get-ip.service';
 import { Router } from '@angular/router';
 import { WishList } from './../../../shared/class/WishList';
 import { HttpServiceService } from './../../../shared/services/http-service.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { SubSink } from 'subsink';
+import { DataTransferService } from 'src/app/shared/services/data-transfer.service';
+
 
 @Component({
   selector: 'app-wishlist',
   templateUrl: './wishlist.component.html',
   styleUrls: ['./wishlist.component.scss']
 })
-export class WishlistComponent implements OnInit {
+export class WishlistComponent implements OnInit, OnDestroy {
 
   wishList: WishList[] = [];
   data: any[] = [];
   ip;
-  constructor(public http: HttpServiceService, private _router: Router, private _ip: GetIPService, public service: HttpServiceService) { }
+
+  public unsub = new SubSink();
+
+  constructor(public http: HttpServiceService,
+    private _router: Router,
+    private _ip: GetIPService,
+    public service: HttpServiceService,
+    public datatransfer: DataTransferService) { }
 
   ngOnInit(): void {
     this.getAll();
+    this.datatransfer.remove();
   }
 
   getAll() {
@@ -79,4 +90,7 @@ export class WishlistComponent implements OnInit {
     }
   }
 
+  ngOnDestroy(): void {
+    this.unsub.unsubscribe();
+  }
 }

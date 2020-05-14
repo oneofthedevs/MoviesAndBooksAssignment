@@ -3,6 +3,8 @@ import { HttpServiceService } from './../../../shared/services/http-service.serv
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Component, OnInit } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
+
 
 @Component({
   selector: 'app-payment-gateway',
@@ -12,7 +14,11 @@ import { Component, OnInit } from '@angular/core';
 export class PaymentGatewayComponent implements OnInit {
 
   OTP: FormGroup;
-  constructor(private _router: Router, private _http: HttpServiceService, public data: DataTransferService, public fb: FormBuilder) { }
+  constructor(private _router: Router,
+    private _http: HttpServiceService,
+    public data: DataTransferService,
+    public fb: FormBuilder,
+    public toast: ToastrService) { }
 
   flag = 0;
   ngOnInit(): void {
@@ -32,10 +38,15 @@ export class PaymentGatewayComponent implements OnInit {
   }
   confirm() {
     if (this.OTP.value.pin === '778899') {
-      this.flag = 2;
+      this._http.getCartItems().subscribe(res => {
+        res.forEach(item => {
+          this._http.deleteCartItem(item.id);
+        });
+        this.toast.success('Order successfully placed', `Order id: ${Math.floor(Math.random() * 10000)}`)
+        this._router.navigate(['']);
+      });
     }
     else {
-      console.log(this.OTP.value.pin);
       this.flag = 1;
     }
   }

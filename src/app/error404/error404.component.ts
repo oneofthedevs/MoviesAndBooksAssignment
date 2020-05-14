@@ -1,3 +1,4 @@
+import { DataTransferService } from './../shared/services/data-transfer.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,9 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class Error404Component implements OnInit {
 
-  constructor() { }
+  constructor(private data: DataTransferService) { }
 
   ngOnInit(): void {
+    this.data.remove();
   }
 
 }

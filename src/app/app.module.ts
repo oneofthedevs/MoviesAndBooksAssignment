@@ -13,6 +13,7 @@ import { Error404Component } from './error404/error404.component';
 import { CheckoutAuthGuard } from './shared/auth/checkout-auth.guard';
 import { DataTransferService } from './shared/services/data-transfer.service';
 import { HttpServiceService } from './shared/services/http-service.service';
+import { MaterialModules } from './shared/material';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { HttpServiceService } from './shared/services/http-service.service';
     FormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+    MaterialModules
   ],
   providers: [HttpServiceService, DataTransferService, CheckoutAuthGuard],
   bootstrap: [AppComponent]

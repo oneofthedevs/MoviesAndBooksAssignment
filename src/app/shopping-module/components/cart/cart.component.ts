@@ -32,9 +32,12 @@ export class CartComponent implements OnInit, OnDestroy {
       address: ['', [
         Validators.required,
         Validators.minLength(5)]],
-      upiId: [null, Validators.required],
-      amount: [null]
+      upiId: [null,
+        [Validators.required,
+        Validators.pattern('[a-zA-Z0-9.\-_]{2,256}@[a-zA-Z]{2,64}')]],
+      amount: [null, Validators.min(1)]
     });
+    this.data.remove();
     this.getCartItems();
   }
   // Reactive From stuff
@@ -44,7 +47,7 @@ export class CartComponent implements OnInit, OnDestroy {
   get address() {
     return this.paymentForm.get('address');
   }
-  get upi() {
+  get upiId() {
     return this.paymentForm.get('upiId');
   }
 
@@ -91,8 +94,8 @@ export class CartComponent implements OnInit, OnDestroy {
         console.log('Quantity One Called');
         this.service.getDeatils(res.ProductId).subscribe(data => {
           data.Quantity++;
+          console.log('Main Stock: ' + data.Quantity);
           this.service.updateProduct(data).subscribe(() => {
-            console.log('Product Updated')
             this.service.deleteCartItem(res.id).subscribe(() => {
               this.getCartItems();
             })
@@ -100,15 +103,14 @@ export class CartComponent implements OnInit, OnDestroy {
         });
       }
       else {
-        console.log('Quantity One Called');
+        console.log('Quantity More Called');
         res.quantity--;
         this.service.updateToCart(res).subscribe(() => {
           console.log('Cart Updated')
           this.service.getDeatils(res.ProductId).subscribe(item => {
             item.Quantity++;
+            console.log('Main Stock: ' + item.Quantity);
             this.service.updateProduct(item).subscribe(() => {
-              console.log('%cLeft: ' + item.Quantity, 'color: green');
-              console.log('Product Updated');
               this.getCartItems();
             });
           });
@@ -119,26 +121,30 @@ export class CartComponent implements OnInit, OnDestroy {
 
   plusItem(id: number) {
     this.service.getCartItem(id).subscribe(res => {
-      this.service.getDeatils(res.ProductId).subscribe(item => {
-        item.Quantity--;
-        console.log('%cLeft: ' + item.Quantity, 'color: green');
-        this.service.updateProduct(item).subscribe(() => {
-          res.quantity++;
-          this.service.updateToCart(res).subscribe(() => {
+      res.quantity++;
+      this.service.updateToCart(res).subscribe(() => {
+        this.service.getDeatils(res.ProductId).subscribe(item => {
+          item.Quantity--;
+          this.service.updateProduct(item).subscribe(() => {
             this.getCartItems();
           });
-        })
+        });
       });
     });
   }
 
   reactive() {
-    console.log(this.paymentForm.value);
-    this.service.OrderInfo = Object.assign({}, this.paymentForm.value);
-    this.service.OrderInfo.amount = this.total;
-    console.log(this.service.OrderInfo);
-    this.data.set(this.service.OrderInfo);
-    this.router.navigate(['./order/summary']);
+    if (this.total === 0) {
+      alert('No Items in Cart');
+    }
+    else {
+      console.log(this.paymentForm.value);
+      this.service.OrderInfo = Object.assign({}, this.paymentForm.value);
+      this.service.OrderInfo.amount = this.total;
+      console.log(this.service.OrderInfo);
+      this.data.set(this.service.OrderInfo);
+      this.router.navigate(['./order/summary']);
+    }
   }
 
   // Reset order details

@@ -21,7 +21,7 @@
       "Genre": "Historical fiction",
       "YearOfRelease": 2016,
       "Amount": 340,
-      "Quantity": 6,
+      "Quantity": 9,
       "Description": "In 1930, the American historian and philosopher Will Durant wrote that Britain’s ‘conscious and deliberate bleeding of India… [was the] greatest crime in all history’. He was not the only one to denounce the rapacity and cruelty of British rule, and his assessment was not exaggerated. ",
       "Writer": "Shashi Tharoor ",
       "GoodReadsRatings": 4,
@@ -35,7 +35,7 @@
       "Genre": "Adventure",
       "YearOfRelease": 1999,
       "Amount": 171,
-      "Quantity": 4,
+      "Quantity": 0,
       "Description": "A bank of clouds was assembling on the not-so-distant horizon, but journalist-mountaineer Jon Krakauer, standing on the summit of Mt. Everest, saw nothing that suggested that a murderous storm was bearing down. He was wrong. ",
       "Writer": "Jon Krakauer",
       "GoodReadsRatings": 4,
@@ -78,7 +78,7 @@
       "Genre": "Action",
       "ReleaseDate": "16/01/2020",
       "Amount": 300,
-      "Quantity": 1,
+      "Quantity": 2,
       "ImdbRating": 6.7,
       "Director": "Adil EI Arbi",
       "Cast": [
@@ -171,19 +171,14 @@
   ],
   "Cart": [
     {
-      "id": 46818,
-      "ProductId": 3,
-      "quantity": 1
-    },
-    {
-      "id": 91861,
+      "id": 57360,
       "ProductId": 2,
-      "quantity": 4
+      "quantity": 1
     },
     {
-      "id": 99500,
-      "ProductId": 10,
-      "quantity": 1
+      "id": 26650,
+      "ProductId": 3,
+      "quantity": 5
     }
   ],
   "WishList": [

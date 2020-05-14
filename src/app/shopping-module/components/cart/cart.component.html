@@ -1,7 +1,117 @@
-<div class="container">
-    <div class="row mt-4">
+<div class="container main">
+    <div class="row mt-4 rows">
         <!-- Cart Items List -->
-        <div class="col-lg-8">
+        <div class="col-lg-8 cards">
+            <div class="row" *ngIf="total === 0">
+                <div class="col-12">
+                    <h1 class="display-4">No items avaliable in cart</h1>
+                </div>
+            </div>
+            <mat-card class="info-card" *ngFor="let item of dataList; let i = index">
+                <div class="row">
+                    <div class="col-md-2 col-4">
+                        <img [src]="item.Image" [alt]="item.Name">
+                    </div>
+                    <div class="col-md-10 col-8">
+                        <mat-card-header>
+                            <div class="ml-auto"> <button class="btn btn-danger btn-sm"
+                                    (click)="deleteItem(list[i].id, list[i].quantity)" title="Delete from cart">
+                                    <i class="fa fa-trash"></i>
+                                </button></div>
+                            <mat-card-title>{{item.Name}}</mat-card-title>
+                            <mat-card-subtitle *ngIf="item.Category === 'Movie'">by {{item.Director}}
+                            </mat-card-subtitle>
+                            <mat-card-subtitle *ngIf="item.Category === 'Book'">by {{item.Writer}}</mat-card-subtitle>
+                            <mat-card-subtitle *ngIf="item.Category === 'Movie'">Movie</mat-card-subtitle>
+                            <mat-card-subtitle *ngIf="item.Category === 'Book'">Book</mat-card-subtitle>
+                        </mat-card-header>
+                        <mat-card-content style="margin-left: 16px;">
+                            <div class="row d-flex align-items-center">
+                                <div class="col-sm-6">
+                                    <p>Price: {{item.Amount | currency: 'INR'}}</p>
+                                </div>
+                                <div class="col-sm-6">
+                                    Quantity:
+                                    <button class="btn btn-warning btn-sm" (click)="minusItem(list[i].id)"
+                                        title="Decrease quantity By 1">
+                                        <i class="fa fa-minus"></i>
+                                    </button>
+                                    &nbsp;{{list[i].quantity}}&nbsp;
+                                    <ng-container *ngIf="item.Quantity > 0; else outOfStock">
+                                        <button class="btn btn-info btn-sm" (click)="plusItem(list[i].id)"
+                                            title="Decrease quantity By 1">
+                                            <i class="fa fa-plus"></i>
+                                        </button>
+                                    </ng-container>
+                                    <ng-template #outOfStock>
+                                        <button class="btn btn-dark btn-sm" disabled title="Out Of Stock"
+                                            style="cursor: default;">
+                                            <i class="fa fa-plus"></i>
+                                        </button>
+                                    </ng-template>
+                                </div>
+                            </div>
+                        </mat-card-content>
+                    </div>
+                </div>
+            </mat-card>
+        </div>
+        <div class="col-lg-4 forms">
+            <mat-card class="info-card">
+                <mat-card-header>
+                    <mat-card-title style="margin-left: 14px;">Payment Details</mat-card-title>
+                </mat-card-header>
+                <form class="col-12" [formGroup]="paymentForm">
+                    <div class="col-12">
+                        <mat-form-field class="example-full-width">
+                            <mat-label>Name</mat-label>
+                            <input matInput formControlName="name" name="username">
+                            <mat-error *ngIf="name.invalid && name.touched">Name does not look right</mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field class="example-full-width">
+                            <mat-label>Address</mat-label>
+                            <textarea matInput style="min-height: 100px;" formControlName="address"
+                                name="address"></textarea>
+                            <mat-error *ngIf="address.invalid && address.touched">Enter a valid address</mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field class="example-full-width">
+                            <mat-label>UPI ID</mat-label>
+                            <input matInput formControlName="upiId" name="upiID">
+                            <mat-error *ngIf="upiId.invalid && upiId.touched">Enter a valid UPI ID</mat-error>
+                        </mat-form-field>
+                        <mat-card-subtitle>Total Amount to be Paid: <b>{{total | currency: 'INR'}}</b>
+                        </mat-card-subtitle>
+                        <!-- <h4 style="font-size: 28px;">Payment Details</h4>
+                        <div class="form-group mt-3">
+                            <label for="">Name</label>
+                            <input class="form-control" type="text" name="username" required="required"
+                                formControlName="name">
+                        </div>
+                        <div class="form-group">
+                            <label for="address">Address</label>
+                            <textarea name="address" id="" cols="30" rows="6" class="form-control"
+                                formControlName="address" required="required"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="upiID">UPI ID</label>
+                            <input class="form-control" type="text" name="upiID" required="required"
+                                formControlName="upiId" autocomplete="off">
+                        </div>
+                        <div class="form-group">
+                            <p>Total Amount to be Paid: <b>{{total | currency: 'INR'}}</b></p>
+                        </div> -->
+                        <div class="form-group">
+                            <button class="btn btn-success col-7" type="submit" [disabled]="paymentForm.invalid"
+                                (click)="reactive()">Checkout</button>
+                            <button class="btn btn-outline-danger col-4 offset-1" (click)="reset()">Reset</button>
+                        </div>
+                    </div>
+                </form>
+            </mat-card>
+        </div>
+        <!-- <div class="col-lg-8">
             <table class="table">
                 <thead class="thead-dark">
                     <tr>
@@ -34,8 +144,6 @@
                                     <i class="fa fa-plus"></i>
                                 </button>
                             </ng-template>
-
-
                         </td>
                         <td class="text-center">{{item.Amount | currency: 'INR'}}</td>
                         <td>
@@ -52,9 +160,9 @@
                     </tr>
                 </tbody>
             </table>
-        </div>
+        </div> -->
         <!-- Order Details Form -->
-        <div class="col-lg-4 bg-dark p-3" style="color: #fff; border-radius: 5px;">
+        <!-- <div class="col-lg-4 bg-dark p-3" style="color: #fff; border-radius: 5px;">
             <form class="col-12" [formGroup]="paymentForm">
                 <div class="col-12">
                     <h4 style="font-size: 28px;">Payment Details</h4>
@@ -84,6 +192,6 @@
                     </div>
                 </div>
             </form>
-        </div>
+        </div> -->
     </div>
 </div>

@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { SubSink } from 'subsink';
 import { Cart } from 'src/app/shared/class/Cart';
 import { ToastrService } from 'ngx-toastr';
+import { DataTransferService } from 'src/app/shared/services/data-transfer.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -17,7 +18,11 @@ import { ToastrService } from 'ngx-toastr';
 export class DashboardComponent implements OnInit, OnDestroy {
 
   // tslint:disable-next-line: variable-name
-  constructor(public service: HttpServiceService, private _router: Router, private _ip: GetIPService, private _tost: ToastrService) { }
+  constructor(public service: HttpServiceService,
+    private _router: Router,
+    private _ip: GetIPService,
+    private _tost: ToastrService,
+    public data: DataTransferService) { }
 
   Products: any[];
   cartItems: Cart[];
@@ -28,12 +33,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
   total;
 
   public unsub = new SubSink();
+
   ngOnInit(): void {
     this.getProducts();
     this.getIP();
-    // console.log(this.service.OrderInfo);
-    // this.getCartItems();
-    // this.getMovies();
+    this.data.remove();
   }
 
   getProducts() {
@@ -41,8 +45,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
       .subscribe(data => {
         this.Products = data;
         this.total = data.length;
-        // console.log(data.length);
-        // console.log(this.Products);
       });
   }
 

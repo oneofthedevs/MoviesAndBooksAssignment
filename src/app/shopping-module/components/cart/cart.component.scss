@@ -1,0 +1,25 @@
+.main{
+    min-height: 100%;
+    .rows{
+        .cards{
+            display: flex;
+            flex-direction: column;
+            .info-card{
+                max-width: 100%;
+                min-width: 60%;
+                margin-bottom: 20px;
+                img{
+                    height: 160px;
+                    width: 100px;
+                }
+            }
+        }
+        .forms{
+            .info-card{
+                .example-full-width {
+                    width: 100%;
+                  }
+            }
+        }
+    }
+}

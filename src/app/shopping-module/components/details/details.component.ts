@@ -4,6 +4,7 @@ import { HttpServiceService } from './../../../shared/services/http-service.serv
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { SubSink } from 'subsink';
+import { DataTransferService } from 'src/app/shared/services/data-transfer.service';
 
 @Component({
   selector: 'app-details',
@@ -14,7 +15,10 @@ export class DetailsComponent implements OnInit, OnDestroy {
 
   public unsub = new SubSink();
 
-  constructor(public activatedRoute: ActivatedRoute, public service: HttpServiceService, private _ip: GetIPService) { }
+  constructor(public activatedRoute: ActivatedRoute,
+    public service: HttpServiceService,
+    private _ip: GetIPService,
+    public data: DataTransferService) { }
 
   id: number;
   details: any;
@@ -24,6 +28,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
     this.getId();
     this.getDetails(this.id);
     this.getIP();
+    this.data.remove();
   }
   getId() {
     // tslint:disable-next-line: radix

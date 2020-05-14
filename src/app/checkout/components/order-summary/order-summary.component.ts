@@ -3,14 +3,17 @@ import { Cart } from './../../../shared/class/Cart';
 import { DataTransferService } from './../../../shared/services/data-transfer.service';
 import { OrderDetails } from './../../../shared/class/OrderDetails';
 import { HttpServiceService } from './../../../shared/services/http-service.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { SubSink } from 'subsink';
 
 @Component({
   selector: 'app-order-summary',
   templateUrl: './order-summary.component.html',
   styleUrls: ['./order-summary.component.scss']
 })
-export class OrderSummaryComponent implements OnInit {
+export class OrderSummaryComponent implements OnInit, OnDestroy {
+
+  public unsub = new SubSink();
 
   constructor(public serivce: HttpServiceService, public data: DataTransferService, private _router: Router) { }
 
@@ -52,6 +55,10 @@ export class OrderSummaryComponent implements OnInit {
   goBack() {
     this.data.remove();
     this._router.navigate(['../catalog/cart']);
+  }
+
+  ngOnDestroy(): void {
+    this.unsub.unsubscribe();
   }
 
 }
