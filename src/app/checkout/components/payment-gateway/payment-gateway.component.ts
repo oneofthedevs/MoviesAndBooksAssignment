@@ -40,9 +40,9 @@ export class PaymentGatewayComponent implements OnInit {
     if (this.OTP.value.pin === '778899') {
       this._http.getCartItems().subscribe(res => {
         res.forEach(item => {
-          this._http.deleteCartItem(item.id);
+          this._http.deleteCartItem(item.id).subscribe();
         });
-        this.toast.success('Order successfully placed', `Order id: ${Math.floor(Math.random() * 10000)}`)
+        this.toast.success('Order successfully placed', `Order id: ${Math.floor(Math.random() * 10000)}`);
         this._router.navigate(['']);
       });
     }

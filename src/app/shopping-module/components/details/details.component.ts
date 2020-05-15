@@ -5,6 +5,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { SubSink } from 'subsink';
 import { DataTransferService } from 'src/app/shared/services/data-transfer.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-details',
@@ -18,7 +19,8 @@ export class DetailsComponent implements OnInit, OnDestroy {
   constructor(public activatedRoute: ActivatedRoute,
     public service: HttpServiceService,
     private _ip: GetIPService,
-    public data: DataTransferService) { }
+    public data: DataTransferService,
+    private _tost: ToastrService) { }
 
   id: number;
   details: any;
@@ -44,7 +46,8 @@ export class DetailsComponent implements OnInit, OnDestroy {
     console.log(thisid);
     this.service.getWishListSpecific(this.IP.ip, thisid).subscribe(res => {
       if (res.length > 0) {
-        console.log('Already In the WishList');
+        // console.log('Already In the WishList');
+        this._tost.info('Already in the WishList');
       }
       else {
         console.log('Not in Wish');
@@ -53,7 +56,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
           productID: thisid,
           ip: this.IP.ip
         }
-        this.service.addToWish(this.Wish).subscribe();
+        this.service.addToWish(this.Wish).subscribe(() => this._tost.success('Added to WishList'));
       }
     });
   }

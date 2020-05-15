@@ -169,22 +169,16 @@
       "Image": "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQ-VY5cjeq-HcRzfG3ofhcEhXFE06-Ev2xohkP9pY3MKNrkgRxp"
     }
   ],
-  "Cart": [
-    {
-      "id": 57360,
-      "ProductId": 2,
-      "quantity": 1
-    },
-    {
-      "id": 26650,
-      "ProductId": 3,
-      "quantity": 5
-    }
-  ],
+  "Cart": [],
   "WishList": [
     {
       "id": 5272,
       "productID": 2,
+      "ip": "103.232.236.125"
+    },
+    {
+      "id": 21205,
+      "productID": 21,
       "ip": "103.232.236.125"
     }
   ]

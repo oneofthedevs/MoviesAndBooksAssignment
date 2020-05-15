@@ -132,7 +132,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     // console.log(thisid);
     this.service.getWishListSpecific(this.IP.ip, thisid).subscribe(res => {
       if (res.length > 0) {
-        this._tost.info('Already in the WishList')
+        this._tost.info('Already in the WishList');
         console.log('Already In the WishList');
       }
       else {
